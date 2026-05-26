@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Referensi Website Puri</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- FontAwesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Google Fonts: Cormorant Garamond (display) + Jost (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            puri: {
+              cream:  '#F7F4EF',
+              stone:  '#EDE8E0',
+              sand:   '#C9BEA8',
+              bark:   '#6B5E4E',
+              coal:   '#2C2520',
+              gold:   '#B89A5A',
+            }
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            body:    ['Jost', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ─── Base ─── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background-color: #F7F4EF;
+      color: #2C2520;
+      overflow-x: hidden;
+    }
+
+    /* ─── Section visibility ─── */
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* ─── Navbar ─── */
+    #navbar {
+      background: rgba(247, 244, 239, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184, 154, 90, 0.25);
+    }
+
+    .nav-link {
+      position: relative;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      font-size: 0.8125rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6B5E4E;
+      transition: color 0.25s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -3px;
+      width: 0; height: 1px;
+      background: #B89A5A;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover, .nav-link.active-link { color: #2C2520; }
+    .nav-link:hover::after, .nav-link.active-link::after { width: 100%; }
+
+    /* ─── Brand ─── */
+    .brand-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: 0.04em;
+      color: #2C2520;
+    }
+
+    /* ─── Hero ─── */
+    .hero-bg {
+      background-image:
+        linear-gradient(to bottom, rgba(247,244,239,0) 60%, rgba(247,244,239,1) 100%),
+        url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=80');
+      background-size: cover;
+      background-position: center 30%;
+      position: relative;
+    }
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(44,37,32,0.55) 0%, rgba(44,37,32,0.2) 100%);
+    }
+
+    /* ─── Divider ornament ─── */
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #B89A5A;
+    }
+    .ornament::before,
+    .ornament::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #B89A5A, transparent);
+    }
+
+    /* ─── Section heading ─── */
+    .section-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #B89A5A;
+      font-weight: 500;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      line-height: 1.15;
+      color: #2C2520;
+    }
+
+    /* ─── Gallery ─── */
+    .gallery-item {
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-item img {
+      transition: transform 0.6s ease;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .gallery-item:hover img { transform: scale(1.07); }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: rgba(44,37,32,0);
+      transition: background 0.4s;
+      display: flex; align-items: flex-end;
+      padding: 1rem;
+    }
+    .gallery-item:hover .gallery-overlay { background: rgba(44,37,32,0.45); }
+    .gallery-caption {
+      color: #F7F4EF;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    .gallery-item:hover .gallery-caption { opacity: 1; transform: translateY(0); }
+
+    /* ─── Blog card ─── */
+    .blog-card {
+      background: #fff;
+      border: 1px solid #EDE8E0;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .blog-card:hover {
+      box-shadow: 0 12px 40px rgba(44,37,32,0.10);
+      transform: translateY(-4px);
+    }
+
+    /* ─── CTA Button ─── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 2rem;
+      background: #2C2520;
+      color: #F7F4EF;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid #2C2520;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: #B89A5A;
+      border-color: #B89A5A;
+      color: #fff;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.5rem;
+      background: transparent;
+      color: #2C2520;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid #6B5E4E;
+      transition: background 0.3s, color 0.3s;
+      cursor: pointer;
+    }
+    .btn-outline:hover {
+      background: #2C2520;
+      color: #F7F4EF;
+      border-color: #2C2520;
+    }
+
+    /* ─── Maps placeholder ─── */
+    .map-placeholder {
+      background: #EDE8E0;
+      border: 1px dashed #C9BEA8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #6B5E4E;
+      gap: 0.5rem;
+    }
+
+    /* ─── Warisan card ─── */
+    .warisan-card {
+      border-left: 3px solid #B89A5A;
+      background: #fff;
+      padding: 1.5rem 1.75rem;
+      transition: box-shadow 0.3s;
+    }
+    .warisan-card:hover {
+      box-shadow: 0 8px 30px rgba(44,37,32,0.09);
+    }
+
+    /* ─── Blog detail ─── */
+    #blog-detail { display: none; }
+    #blog-detail.active { display: block; }
+    #blog-list.hidden { display: none; }
+
+    /* ─── Footer social icon ─── */
+    .social-icon {
+      width: 38px; height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(184,154,90,0.4);
+      color: #B89A5A;
+      font-size: 0.95rem;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .social-icon:hover {
+      background: #B89A5A;
+      color: #F7F4EF;
+      border-color: #B89A5A;
+    }
+
+    /* ─── Mobile menu transition ─── */
+    #mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    #mobile-menu.open { max-height: 400px; }
+
+    /* ─── History prose ─── */
+    .prose-puri p {
+      font-family: 'Jost', sans-serif;
+      font-size: 1rem;
+      line-height: 1.85;
+      color: #4A3E35;
+      margin-bottom: 1.25rem;
+    }
+    .prose-puri h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #2C2520;
+      margin: 2rem 0 0.75rem;
+    }
+
+    /* ─── Fade-in animation ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.65s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.22s; }
+    .delay-3 { animation-delay: 0.34s; }
+    .delay-4 { animation-delay: 0.46s; }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <!-- ══════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-6xl mx-auto px-5 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Brand -->
+        <a href="#beranda" class="brand-text nav-anchor">Referensi Website Puri</a>
+
+        <!-- Desktop menu -->
+        <ul class="hidden md:flex items-center gap-7">
+          <li><a href="#beranda"  class="nav-link nav-anchor">Beranda</a></li>
+          <li><a href="#sejarah" class="nav-link nav-anchor">Sejarah</a></li>
+          <li><a href="#galeri"  class="nav-link nav-anchor">Galeri</a></li>
+          <li><a href="#warisan" class="nav-link nav-anchor">Warisan</a></li>
+          <li><a href="#blog"    class="nav-link nav-anchor">Blog</a></li>
+        </ul>
+
+        <!-- Hamburger -->
+        <button id="hamburger" class="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8" aria-label="Menu">
+          <span class="ham-bar block w-6 h-[1.5px] bg-puri-coal transition-all duration-300"></span>
+          <span class="ham-bar block w-6 h-[1.5px] bg-puri-coal transition-all duration-300"></span>
+          <span class="ham-bar block w-4 h-[1.5px] bg-puri-coal transition-all duration-300 self-end"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden border-t border-puri-stone/60">
+      <ul class="flex flex-col px-5 py-3 gap-1 bg-puri-cream/95">
+        <li><a href="#beranda"  class="mobile-nav-link block py-2.5 text-sm tracking-widest uppercase text-puri-bark nav-anchor hover:text-puri-coal transition-colors">Beranda</a></li>
+        <li><a href="#sejarah" class="mobile-nav-link block py-2.5 text-sm tracking-widest uppercase text-puri-bark nav-anchor hover:text-puri-coal transition-colors">Sejarah</a></li>
+        <li><a href="#galeri"  class="mobile-nav-link block py-2.5 text-sm tracking-widest uppercase text-puri-bark nav-anchor hover:text-puri-coal transition-colors">Galeri</a></li>
+        <li><a href="#warisan" class="mobile-nav-link block py-2.5 text-sm tracking-widest uppercase text-puri-bark nav-anchor hover:text-puri-coal transition-colors">Warisan</a></li>
+        <li><a href="#blog"    class="mobile-nav-link block py-2.5 text-sm tracking-widest uppercase text-puri-bark nav-anchor hover:text-puri-coal transition-colors">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       SECTION: BERANDA
+  ══════════════════════════════════════════ -->
+  <section id="beranda" class="page-section">
+
+    <!-- Hero -->
+    <div class="hero-bg min-h-screen flex items-center">
+      <div class="hero-overlay absolute inset-0"></div>
+      <div class="relative z-10 max-w-6xl mx-auto px-5 lg:px-8 pt-24 pb-32 text-center">
+        <p class="section-eyebrow text-puri-sand mb-5 fade-up">Selamat Datang</p>
+        <h1 class="section-title text-5xl sm:text-6xl lg:text-7xl text-white mb-6 fade-up delay-1">
+          Ke Puri<br/><em>yang Penuh Sejarah</em>
+        </h1>
+        <p class="max-w-xl mx-auto text-white/80 font-body text-base leading-relaxed mb-10 fade-up delay-2">
+          Sebuah warisan budaya Bali yang telah berdiri selama berabad-abad — menjaga tradisi, seni, dan nilai luhur leluhur agar tetap hidup di tengah modernitas zaman.
+        </p>
+        <a href="#sejarah" class="btn-primary fade-up delay-3 nav-anchor">
+          Jelajahi Sejarah <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Informasi Pengunjung -->
+    <div class="max-w-6xl mx-auto px-5 lg:px-8 py-20">
+      <div class="text-center mb-12">
+        <p class="section-eyebrow mb-3">Panduan Pengunjung</p>
+        <h2 class="section-title text-4xl lg:text-5xl">Informasi<br/><em>untuk Anda</em></h2>
+        <div class="ornament mt-6 max-w-xs mx-auto"><i class="fa-solid fa-om text-xs"></i></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-10 lg:gap-16">
+
+        <!-- Lokasi -->
+        <div>
+          <h3 class="font-display text-2xl font-semibold text-puri-coal mb-2">
+            <i class="fa-solid fa-location-dot text-puri-gold text-lg mr-2"></i>Lokasi
+          </h3>
+          <p class="font-body text-sm text-puri-bark mb-1">Jl. Raya Puri Agung No. 1, Desa Adat Krangasem,</p>
+          <p class="font-body text-sm text-puri-bark mb-1">Kecamatan Krangasem, Kabupaten Karangasem,</p>
+          <p class="font-body text-sm text-puri-bark mb-6">Bali 80811 — Indonesia</p>
+
+          <!-- Maps placeholder -->
+          <div class="map-placeholder w-full h-52 rounded-sm">
+            <i class="fa-solid fa-map-location-dot text-3xl opacity-40"></i>
+            <span class="text-xs tracking-widest uppercase opacity-50">Placeholder Peta Google Maps</span>
+          </div>
+          <p class="text-xs text-puri-sand mt-2 italic">* Ganti dengan iframe Google Maps Anda</p>
+        </div>
+
+        <!-- Tata Krama -->
+        <div>
+          <h3 class="font-display text-2xl font-semibold text-puri-coal mb-4">
+            <i class="fa-solid fa-hands-praying text-puri-gold text-lg mr-2"></i>Tata Krama
+          </h3>
+
+          <p class="font-body text-xs tracking-widest uppercase text-puri-sand mb-3">Aturan Berpakaian</p>
+          <ul class="space-y-2 mb-7">
+            <li class="flex gap-3 text-sm text-puri-bark">
+              <i class="fa-solid fa-check text-puri-gold mt-0.5 flex-shrink-0"></i>
+              Wajib mengenakan <strong>kamen</strong> (sarung tradisional) saat memasuki area utama puri.
+            </li>
+            <li class="flex gap-3 text-sm text-puri-bark">
+              <i class="fa-solid fa-check text-puri-gold mt-0.5 flex-shrink-0"></i>
+              Kenakan pakaian yang sopan — bahu dan lutut harus tertutup.
+            </li>
+            <li class="flex gap-3 text-sm text-puri-bark">
+              <i class="fa-solid fa-check text-puri-gold mt-0.5 flex-shrink-0"></i>
+              Selendang atau sabuk dapat dipinjam secara gratis di pintu masuk.
+            </li>
+          </ul>
+
+          <p class="font-body text-xs tracking-widest uppercase text-puri-sand mb-3">Etika Sopan Santun</p>
+          <ul class="space-y-2">
+            <li class="flex gap-3 text-sm text-puri-bark">
+              <i class="fa-solid fa-circle text-puri-gold mt-1.5 flex-shrink-0 text-[6px]"></i>
+              Jaga ketenangan dan berbicara dengan suara lembut di dalam lingkungan puri.
+            </li>
+            <li class="flex gap-3 text-sm text-puri-bark">
+              <i class="fa-solid fa-circle text-puri-gold mt-1.5 flex-shrink-0 text-[6px]"></i>
+              Tidak diperbolehkan menyentuh atau memindahkan benda pusaka tanpa izin.
+            </li>
+            <li class="flex gap-3 text-sm text-puri-bark">
+              <i class="fa-solid fa-circle text-puri-gold mt-1.5 flex-shrink-0 text-[6px]"></i>
+              Wanita yang sedang dalam masa haid dimohon untuk tidak memasuki area pura/pelinggih.
+            </li>
+            <li class="flex gap-3 text-sm text-puri-bark">
+              <i class="fa-solid fa-circle text-puri-gold mt-1.5 flex-shrink-0 text-[6px]"></i>
+              Fotografi diperbolehkan di area terbuka, namun dilarang di ruang persembahyangan.
+            </li>
+            <li class="flex gap-3 text-sm text-puri-bark">
+              <i class="fa-solid fa-circle text-puri-gold mt-1.5 flex-shrink-0 text-[6px]"></i>
+              Mohon menjaga kebersihan dan tidak membuang sampah sembarangan di dalam puri.
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION: SEJARAH
+  ══════════════════════════════════════════ -->
+  <section id="sejarah" class="page-section">
+    <div class="max-w-3xl mx-auto px-5 lg:px-8 pt-32 pb-24">
+      <div class="text-center mb-14">
+        <p class="section-eyebrow mb-3">Perjalanan Waktu</p>
+        <h2 class="section-title text-4xl lg:text-5xl">Sejarah<br/><em>Berdirinya Puri</em></h2>
+        <div class="ornament mt-6 max-w-xs mx-auto"><i class="fa-solid fa-feather text-xs"></i></div>
+      </div>
+
+      <div class="prose-puri">
+        <h3>Asal Usul & Berdirinya Puri</h3>
+        <p>
+          Puri ini berdiri pada abad ke-17 Masehi, didirikan oleh Ida Anak Agung Gede Ngurah, seorang pemimpin berwibawa yang berasal dari keturunan langsung Raja Karangasem. Setelah ekspansi kerajaan ke wilayah timur Bali, beliau diperintahkan untuk mendirikan sebuah kediaman permanen sebagai pusat pemerintahan dan kebudayaan di daerah tersebut.
+        </p>
+        <p>
+          Nama puri ini dipilih bukan sekadar sebutan geografis, melainkan merupakan mantra penghormatan kepada leluhur yang telah terlebih dahulu menetap dan membuka lahan di sini. Menurut lontar-lontar kuno yang tersimpan rapi di ruang arsip puri, proses pembangunan memakan waktu lebih dari dua dasawarsa, melibatkan ratusan undagi (arsitek tradisional Bali) dan ribuan tenaga pengrajin dari seluruh penjuru pulau.
+        </p>
+
+        <h3>Masa Kejayaan</h3>
+        <p>
+          Memasuki abad ke-18, puri berkembang menjadi pusat kekuasaan, seni, dan spiritualitas yang paling berpengaruh di wilayah timur Bali. Para raja yang memerintah dikenal tidak hanya sebagai pemimpin politik, tetapi juga sebagai pelindung seni tari, gamelan, ukiran, dan sastra Kawi. Di sinilah lahir beberapa gaya tari sakral yang hingga hari ini masih dipertunjukkan pada upacara-upacara besar.
+        </p>
+        <p>
+          Hubungan diplomatik dengan kerajaan-kerajaan tetangga — termasuk Klungkung, Buleleng, dan bahkan pengaruh dari kerajaan Mataram di Jawa — turut memperkaya corak budaya puri. Pertukaran seniman, pustakawan, dan rohaniwan antar kerajaan menjadikan puri ini sebagai mercusuar peradaban di jamannya.
+        </p>
+
+        <h3>Era Kolonial & Perlawanan</h3>
+        <p>
+          Ketika pemerintahan kolonial Belanda mulai memperluas kekuasaan ke Bali pada akhir abad ke-19, puri menghadapi tekanan besar. Raja puri ketika itu, Ida Anak Agung Ketut Agung, memilih jalan diplomasi sembari diam-diam mempertahankan otonomi adat dan spiritualitas keluarga besarnya. Strategi ini terbukti berhasil — puri berhasil melewati masa-masa sulit tanpa kehilangan identitas budayanya yang paling inti.
+        </p>
+        <p>
+          Arsip foto dari awal abad ke-20 yang tersimpan di puri memperlihatkan kompleks bangunan yang masih dalam kondisi megah — atap ijuk berlapis, gerbang paduraksa yang kokoh, dan halaman luar (jaba) yang ditumbuhi pohon-pohon tua yang kini telah berusia ratusan tahun.
+        </p>
+
+        <h3>Puri di Era Modern</h3>
+        <p>
+          Memasuki era kemerdekaan Indonesia, keluarga puri dengan bijaksana mentransformasikan peran mereka — dari pusat kekuasaan feodal menjadi penjaga dan pemromosi warisan budaya Bali. Generasi terkini dari keluarga ini aktif terlibat dalam berbagai inisiatif pelestarian budaya, pendidikan seni tradisional, serta mendukung pengembangan pariwisata budaya yang bertanggung jawab.
+        </p>
+        <p>
+          Hari ini, puri terbuka bagi para pengunjung yang ingin menyerap kekayaan sejarah dan merasakan kehidupan tradisional Bali yang autentik — sebuah jendela ke masa lalu yang hidup dan masih terus bernapas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION: GALERI
+  ══════════════════════════════════════════ -->
+  <section id="galeri" class="page-section">
+    <div class="max-w-6xl mx-auto px-5 lg:px-8 pt-32 pb-24">
+      <div class="text-center mb-14">
+        <p class="section-eyebrow mb-3">Koleksi Visual</p>
+        <h2 class="section-title text-4xl lg:text-5xl">Galeri<br/><em>Foto Puri</em></h2>
+        <div class="ornament mt-6 max-w-xs mx-auto"><i class="fa-solid fa-camera text-xs"></i></div>
+      </div>
+
+      <!-- Masonry-style grid -->
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+
+        <!-- Kolom 1: tall -->
+        <div class="gallery-item rounded-sm row-span-2 h-[340px] md:h-[460px]">
+          <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=600&q=80" alt="Gerbang Puri" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Gerbang Agung</span></div>
+        </div>
+
+        <div class="gallery-item rounded-sm h-[165px] md:h-[225px]">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80" alt="Tari Bali" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Pertunjukan Kecak</span></div>
+        </div>
+
+        <div class="gallery-item rounded-sm h-[165px] md:h-[225px]">
+          <img src="https://images.unsplash.com/photo-1604999333679-b86d54738315?auto=format&fit=crop&w=600&q=80" alt="Upacara Adat" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Upacara Piodalan</span></div>
+        </div>
+
+        <div class="gallery-item rounded-sm h-[165px] md:h-[225px]">
+          <img src="https://images.unsplash.com/photo-1531761535209-180857e963b9?auto=format&fit=crop&w=600&q=80" alt="Ukiran Kayu" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Ukiran Tradisional</span></div>
+        </div>
+
+        <div class="gallery-item rounded-sm h-[165px] md:h-[225px]">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80" alt="Sawah Bali" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Persawahan Sekitar</span></div>
+        </div>
+
+        <!-- Kolom tengah: tall -->
+        <div class="gallery-item rounded-sm h-[165px] md:h-[225px]">
+          <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=600&q=80" alt="Sesaji" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Sesaji &amp; Persembahan</span></div>
+        </div>
+
+        <div class="gallery-item rounded-sm h-[165px] md:h-[225px]">
+          <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=600&q=80" alt="Gamelan" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Gamelan Puri</span></div>
+        </div>
+
+        <div class="gallery-item rounded-sm h-[165px] md:h-[225px]">
+          <img src="https://images.unsplash.com/photo-1573790387438-4da905039392?auto=format&fit=crop&w=600&q=80" alt="Penari" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Penari Legong</span></div>
+        </div>
+
+        <!-- Kolom 3: tall -->
+        <div class="gallery-item rounded-sm row-span-2 h-[340px] md:h-[460px]">
+          <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=600&q=80" alt="Pura di Bali" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Keindahan Pura</span></div>
+        </div>
+
+        <div class="gallery-item rounded-sm h-[165px] md:h-[225px]">
+          <img src="https://images.unsplash.com/photo-1561555819-ce3bfa3a7a4b?auto=format&fit=crop&w=600&q=80" alt="Kain Tenun Bali" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Tenun Endek</span></div>
+        </div>
+
+        <div class="gallery-item rounded-sm h-[165px] md:h-[225px]">
+          <img src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=600&q=80" alt="Landscape Bali" loading="lazy" />
+          <div class="gallery-overlay"><span class="gallery-caption">Pemandangan Alam</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION: WARISAN
+  ══════════════════════════════════════════ -->
+  <section id="warisan" class="page-section">
+    <div class="max-w-5xl mx-auto px-5 lg:px-8 pt-32 pb-24">
+      <div class="text-center mb-14">
+        <p class="section-eyebrow mb-3">Pusaka Leluhur</p>
+        <h2 class="section-title text-4xl lg:text-5xl">Warisan<br/><em>Seni &amp; Budaya</em></h2>
+        <div class="ornament mt-6 max-w-xs mx-auto"><i class="fa-solid fa-infinity text-xs"></i></div>
+      </div>
+
+      <p class="text-center font-body text-base text-puri-bark max-w-2xl mx-auto mb-14 leading-relaxed">
+        Selama berabad-abad, keluarga besar Puri telah menjadi garda terdepan dalam melestarikan kekayaan seni, tradisi, dan filsafat Bali yang tak ternilai harganya.
+      </p>
+
+      <div class="grid sm:grid-cols-2 gap-6 mb-12">
+
+        <div class="warisan-card rounded-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 bg-puri-stone flex items-center justify-center rounded-sm flex-shrink-0">
+              <i class="fa-solid fa-music text-puri-gold"></i>
+            </div>
+            <h4 class="font-display text-xl font-semibold text-puri-coal">Gamelan Gong Kebyar</h4>
+          </div>
+          <p class="font-body text-sm text-puri-bark leading-relaxed">
+            Seperangkat alat musik gamelan berusia lebih dari 200 tahun yang hingga kini masih dimainkan secara aktif dalam setiap upacara besar puri. Gong kebyar warisan ini terdaftar sebagai benda cagar budaya oleh Dinas Kebudayaan Provinsi Bali.
+          </p>
+        </div>
+
+        <div class="warisan-card rounded-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 bg-puri-stone flex items-center justify-center rounded-sm flex-shrink-0">
+              <i class="fa-solid fa-person-dancing text-puri-gold"></i>
+            </div>
+            <h4 class="font-display text-xl font-semibold text-puri-coal">Tari Rejang Puri</h4>
+          </div>
+          <p class="font-body text-sm text-puri-bark leading-relaxed">
+            Tarian sakral yang hanya boleh dibawakan oleh perempuan dari garis keturunan puri. Tari Rejang versi puri ini memiliki gerakan tangan dan pola lantai yang berbeda dari versi umum — mencerminkan doa dan penghormatan kepada leluhur.
+          </p>
+        </div>
+
+        <div class="warisan-card rounded-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 bg-puri-stone flex items-center justify-center rounded-sm flex-shrink-0">
+              <i class="fa-solid fa-scroll text-puri-gold"></i>
+            </div>
+            <h4 class="font-display text-xl font-semibold text-puri-coal">Koleksi Lontar Kuno</h4>
+          </div>
+          <p class="font-body text-sm text-puri-bark leading-relaxed">
+            Lebih dari 300 lontar (daun tal bertuliskan aksara Bali kuno) tersimpan di ruang arsip puri. Isinya mencakup sastra Kawi, tatacara upacara, ilmu pengobatan tradisional, arsitektur tradisional Bali (Asta Kosala Kosali), hingga silsilah keluarga.
+          </p>
+        </div>
+
+        <div class="warisan-card rounded-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 bg-puri-stone flex items-center justify-center rounded-sm flex-shrink-0">
+              <i class="fa-solid fa-paintbrush text-puri-gold"></i>
+            </div>
+            <h4 class="font-display text-xl font-semibold text-puri-coal">Seni Lukis Kamasan</h4>
+          </div>
+          <p class="font-body text-sm text-puri-bark leading-relaxed">
+            Puluhan lukisan gaya Kamasan bergaya wayang yang menghiasi dinding-dinding bale puri. Dibuat oleh para maestro dari Desa Kamasan sejak abad ke-18, lukisan-lukisan ini menggambarkan kisah epik Mahabharata dan Ramayana versi Bali.
+          </p>
+        </div>
+
+        <div class="warisan-card rounded-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 bg-puri-stone flex items-center justify-center rounded-sm flex-shrink-0">
+              <i class="fa-solid fa-hammer text-puri-gold"></i>
+            </div>
+            <h4 class="font-display text-xl font-semibold text-puri-coal">Keris &amp; Senjata Pusaka</h4>
+          </div>
+          <p class="font-body text-sm text-puri-bark leading-relaxed">
+            Koleksi keris, tombak, dan senjata upacara yang dipercaya memiliki kekuatan spiritual dan menjadi penghubung antara dunia manusia dengan leluhur. Setiap pusaka memiliki nama dan riwayat tersendiri yang dicatat dalam lontar keris puri.
+          </p>
+        </div>
+
+        <div class="warisan-card rounded-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 bg-puri-stone flex items-center justify-center rounded-sm flex-shrink-0">
+              <i class="fa-solid fa-seedling text-puri-gold"></i>
+            </div>
+            <h4 class="font-display text-xl font-semibold text-puri-coal">Tradisi Usada &amp; Jamu</h4>
+          </div>
+          <p class="font-body text-sm text-puri-bark leading-relaxed">
+            Pengetahuan pengobatan tradisional berbasis tanaman lokal yang diwariskan secara turun-temurun. Seorang pemangku Usada dari keluarga puri masih aktif memberikan konsultasi pengobatan kepada masyarakat sekitar hingga hari ini.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION: BLOG
+  ══════════════════════════════════════════ -->
+  <section id="blog" class="page-section">
+    <div class="max-w-6xl mx-auto px-5 lg:px-8 pt-32 pb-24">
+      <div class="text-center mb-14">
+        <p class="section-eyebrow mb-3">Catatan &amp; Cerita</p>
+        <h2 class="section-title text-4xl lg:text-5xl">Blog<br/><em>Puri</em></h2>
+        <div class="ornament mt-6 max-w-xs mx-auto"><i class="fa-solid fa-pen-nib text-xs"></i></div>
+      </div>
+
+      <!-- Blog list -->
+      <div id="blog-list" class="grid md:grid-cols-3 gap-7">
+
+        <!-- Card 1 -->
+        <article class="blog-card rounded-sm overflow-hidden flex flex-col">
+          <div class="overflow-hidden h-48">
+            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=600&q=80"
+                 alt="Makna Gerbang" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy"/>
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <time class="text-xs tracking-widest uppercase text-puri-sand mb-2 block">12 Maret 2026</time>
+            <h3 class="font-display text-xl font-semibold text-puri-coal mb-2 leading-snug">
+              Makna Filosofis di Balik Arsitektur Gerbang Puri
+            </h3>
+            <p class="font-body text-sm text-puri-bark leading-relaxed flex-1 mb-4">
+              Setiap lekukan paduraksa dan candi bentar menyimpan pesan kosmologis yang dalam. Pelajari bagaimana nenek moyang merancang gerbang bukan sekadar sebagai pintu, melainkan sebagai batas antara dunia profan dan sakral.
+            </p>
+            <button class="btn-outline self-start text-xs blog-read-btn" data-article="1">
+              Baca Selengkapnya <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="blog-card rounded-sm overflow-hidden flex flex-col">
+          <div class="overflow-hidden h-48">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80"
+                 alt="Tari Legong" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy"/>
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <time class="text-xs tracking-widest uppercase text-puri-sand mb-2 block">28 April 2026</time>
+            <h3 class="font-display text-xl font-semibold text-puri-coal mb-2 leading-snug">
+              Regenerasi Penari: Mewariskan Seni Legong kepada Generasi Z
+            </h3>
+            <p class="font-body text-sm text-puri-bark leading-relaxed flex-1 mb-4">
+              Di tengah gempuran budaya digital, sekolah tari puri berhasil menarik minat puluhan anak muda untuk belajar Tari Legong. Bagaimana strategi keluarga puri membuat seni sakral ini tetap relevan?
+            </p>
+            <button class="btn-outline self-start text-xs blog-read-btn" data-article="2">
+              Baca Selengkapnya <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="blog-card rounded-sm overflow-hidden flex flex-col">
+          <div class="overflow-hidden h-48">
+            <img src="https://images.unsplash.com/photo-1604999333679-b86d54738315?auto=format&fit=crop&w=600&q=80"
+                 alt="Galungan" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy"/>
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <time class="text-xs tracking-widest uppercase text-puri-sand mb-2 block">10 Mei 2026</time>
+            <h3 class="font-display text-xl font-semibold text-puri-coal mb-2 leading-snug">
+              Galungan di Puri: Ritual, Makna, dan Keindahan yang Tersembunyi
+            </h3>
+            <p class="font-body text-sm text-puri-bark leading-relaxed flex-1 mb-4">
+              Hari raya Galungan bagi keluarga puri bukan hanya perayaan biasa — ia adalah puncak dari serangkaian ritual yang memerlukan persiapan berbulan-bulan. Sebuah liputan mendalam tentang tradisi Galungan di dalam puri.
+            </p>
+            <button class="btn-outline self-start text-xs blog-read-btn" data-article="3">
+              Baca Selengkapnya <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+          </div>
+        </article>
+
+      </div><!-- /blog-list -->
+
+      <!-- Blog detail (hidden by default) -->
+      <div id="blog-detail">
+        <button id="blog-back-btn" class="btn-outline mb-10">
+          <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Blog
+        </button>
+        <div id="blog-detail-content" class="max-w-3xl mx-auto"><!-- filled by JS --></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="bg-puri-coal text-puri-cream/70 py-12">
+    <div class="max-w-6xl mx-auto px-5 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="text-center md:text-left">
+        <p class="font-display text-lg text-puri-cream mb-1">Referensi Website Puri</p>
+        <p class="text-xs tracking-wide">© 2026 Puri. Seluruh hak cipta dilindungi.</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="#" aria-label="Instagram" class="social-icon">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="#" aria-label="YouTube" class="social-icon">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="#" aria-label="Facebook" class="social-icon">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Blog article data ── */
+    const articles = {
+      1: {
+        date: '12 Maret 2026',
+        title: 'Makna Filosofis di Balik Arsitektur Gerbang Puri',
+        image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80',
+        body: `
+          <p>Bagi wisatawan yang pertama kali menginjakkan kaki di halaman puri, pemandangan yang paling mencolok adalah gerbang megah yang menyambut mereka — paduraksa dengan puncak runcing yang menjulang, atau candi bentar yang terbelah dua di tengahnya. Banyak yang berhenti sejenak untuk berfoto, namun hanya sedikit yang menyadari betapa dalamnya filosofi yang tersimpan di balik setiap detail arsitektur tersebut.</p>
+
+          <h3>Paduraksa dan Candi Bentar: Dua Dunia yang Berbeda</h3>
+          <p>Dalam kosmologi Hindu-Bali, alam semesta dibagi menjadi dua wilayah besar: Bhur (dunia manusia/profan) dan Swah (dunia leluhur/sakral). Candi bentar — gerbang yang terbelah dua dan tidak beratap — berfungsi sebagai batas pertama antara ruang publik dengan ruang semi-sakral. Pembagian dua sisinya bukan tanpa makna: ia melambangkan dua kutub yang berlawanan namun saling melengkapi — baik-buruk, terang-gelap, siang-malam — yang dalam filosofi Bali disebut Rwabhineda.</p>
+
+          <p>Setelah melewati candi bentar, pengunjung akan memasuki jaba tengah, area transisi, sebelum akhirnya berhadapan dengan paduraksa — gerbang yang atapnya menyatu di atas. Penyatuan atap ini bukan sekadar estetika; ia merepresentasikan penyatuan dua dunia tadi, sebuah portal resmi menuju wilayah yang lebih sakral. Melewati paduraksa berarti seseorang secara spiritual telah "berganti kondisi" — jiwa dan pikiran harus sudah dalam keadaan bersih dan siap untuk berinteraksi dengan yang suci.</p>
+
+          <h3>Ukiran yang Bercerita</h3>
+          <p>Jika Anda mau meluangkan waktu untuk mengamati lebih dekat, setiap inci permukaan gerbang puri dipenuhi ukiran yang bukan sekadar ornamen. Relief makara (monster laut mitologis) di kaki gerbang, kala (wajah raksasa bermata besar) di bagian atas, dan rangkaian bunga padma yang berulang — semuanya adalah teks visual yang membacakan cerita kosmologis bagi mereka yang tahu caranya membaca.</p>
+
+          <p>Para undagi (arsitek tradisional Bali) yang membangun gerbang ini ratusan tahun lalu tidak menggunakan cetak biru modern. Mereka berpegang pada Asta Kosala Kosali, sebuah kumpulan lontar yang memuat prinsip-prinsip arsitektur sakral Bali berdasarkan proporsi tubuh manusia dan perhitungan spiritual. Setiap ukuran, setiap tinggi, setiap jarak antar elemen diperhitungkan bukan hanya secara estetika tetapi juga secara spiritual.</p>
+
+          <h3>Gerbang Puri Kami</h3>
+          <p>Gerbang puri yang Anda lihat hari ini merupakan hasil dari dua fase pembangunan: tahap pertama pada abad ke-17 saat puri didirikan, dan renovasi besar-besaran pada awal abad ke-20 yang mempertahankan gaya asli namun memperkuat struktur pondasinya. Beberapa detail ukiran yang terlihat segar di bagian bawah merupakan hasil restorasi yang dilakukan oleh pengrajin dari Desa Mas dan Ubud antara tahun 2018–2020, menggunakan batu padas lokal dan teknik pahat tradisional yang sama dengan yang digunakan pendahulu mereka.</p>
+
+          <p>Lain kali Anda berkunjung, cobalah berhenti sejenak di depan gerbang. Amati, rasakan, dan biarkan arsitektur ini bercerita kepada Anda — bukan dengan kata-kata, melainkan dengan bahasa yang jauh lebih tua dan lebih dalam dari keduanya.</p>
+        `
+      },
+      2: {
+        date: '28 April 2026',
+        title: 'Regenerasi Penari: Mewariskan Seni Legong kepada Generasi Z',
+        image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80',
+        body: `
+          <p>Tiga tahun lalu, Ni Kadek Ayu Sari, 17 tahun, tidak pernah membayangkan dirinya akan mengenakan mahkota gilded emas dan berdiri di atas panggung puri untuk menarikan Tari Legong di hadapan ratusan penonton. Ia lebih sering menghabiskan waktunya menonton konten kreator di media sosial. Namun hari ini, ia adalah salah satu penari kebanggaan Sanggar Seni Puri yang telah tampil di tiga festival internasional.</p>
+
+          <h3>Tantangan Mewariskan Seni Sakral</h3>
+          <p>Tari Legong, yang lahir di lingkungan istana-istana Bali pada abad ke-19, adalah salah satu tarian paling teknis dan paling indah dalam khasanah seni tari dunia. Ia membutuhkan latihan bertahun-tahun untuk menguasai gerakan mata yang ekspresif (seledet), jari-jari tangan yang meliuk presisi (mudra), serta koordinasi seluruh tubuh dengan ritme gamelan yang kompleks.</p>
+
+          <p>Di era media sosial di mana perhatian anak muda terbelah ke seribu arah, meyakinkan mereka untuk mendedikasikan jam-jam latihan yang panjang dan melelahkan untuk sebuah seni tari kuno adalah tantangan tersendiri. Ida Ayu Rai Dharmapatni, kepala sanggar puri yang telah mengajar tari selama 30 tahun, mengakui bahwa ia harus mengubah pendekatannya secara signifikan.</p>
+
+          <h3>Strategi Puri: Relevansi Tanpa Kehilangan Esensi</h3>
+          <p>"Kami tidak mengubah tariannya. Kami mengubah cara kami mengomunikasikannya," ujar Ida Ayu. Sanggar kini menggunakan konten media sosial secara aktif — video behind-the-scenes proses latihan, reels cuplikan pertunjukan, hingga sesi tanya jawab langsung di Instagram — untuk menarik minat generasi muda. Hasilnya mengejutkan: dalam dua tahun terakhir, pendaftar sanggar meningkat 340%.</p>
+
+          <p>Selain media sosial, puri juga bermitra dengan sejumlah sekolah menengah di Karangasem untuk menjadikan pelajaran tari Legong sebagai kegiatan ekstrakurikuler resmi. Program beasiswa penuh diberikan kepada siswa-siswi berbakat dari keluarga tidak mampu, memastikan bahwa seni ini tidak menjadi eksklusif milik kalangan tertentu.</p>
+
+          <h3>Ni Kadek dan Para Penerusnya</h3>
+          <p>Kembali ke Ni Kadek Ayu Sari. Ia masih ingat betapa sulitnya minggu-minggu pertama latihan — otot-otot kakinya kram, jari-jarinya sulit ditekuk ke posisi yang benar, dan sering kali ia ingin menyerah. "Tapi ada sesuatu yang ajaib terjadi setelah tiga bulan pertama. Tiba-tiba semua gerakan itu mulai terasa seperti bagian dari diri saya sendiri. Seperti saya sudah mengetahuinya dari dulu, tapi baru saja diingatkan kembali," kenangnya.</p>
+
+          <p>Kini Ni Kadek sendiri mulai mengajar adik-adik di sanggar secara sukarela setiap Sabtu pagi. Siklus regenerasi itu, tampaknya, terus berputar — dan puri ada di jantungnya.</p>
+        `
+      },
+      3: {
+        date: '10 Mei 2026',
+        title: 'Galungan di Puri: Ritual, Makna, dan Keindahan yang Tersembunyi',
+        image: 'https://images.unsplash.com/photo-1604999333679-b86d54738315?auto=format&fit=crop&w=900&q=80',
+        body: `
+          <p>Sepuluh hari sebelum Galungan tiba, kegiatan di dalam kompleks puri sudah berubah total. Para ibu dan perempuan muda berkumpul di bale untuk membuat penjor — batang bambu melengkung yang dihiasi janur dan buah-buahan — sementara para pria mempersiapkan banten (sesaji) untuk upacara ngaben kecil dan penghormatan kepada leluhur. Udara dipenuhi aroma dupa cendana dan suara lantang gamelan yang tengah dilatih untuk prosesi.</p>
+
+          <h3>Galungan: Lebih dari Sekadar Hari Raya</h3>
+          <p>Bagi masyarakat Hindu Bali, Galungan adalah perayaan kemenangan Dharma (kebajikan) atas Adharma (kejahatan). Ia dirayakan setiap 210 hari sekali berdasarkan kalender Pawukon Bali. Namun bagi keluarga puri, Galungan memiliki lapisan makna yang lebih dalam: ia adalah momen di mana leluhur puri dipercaya turun kembali ke dunia untuk mengunjungi keturunan mereka, dan keluarga besar wajib hadir sepenuhnya — jiwa, raga, dan pikiran — untuk menyambut mereka.</p>
+
+          <p>"Di luar, orang merayakan Galungan dengan jalan-jalan dan bersilaturahmi. Di dalam puri, kami lebih banyak diam dan fokus pada ritual," jelas Ida Bagus Putu Dharma, 65 tahun, yang saat ini memimpin upacara-upacara besar puri. "Setiap hari dari sepuluh hari sebelum Galungan hingga Kuningan memiliki nama dan ritualnya sendiri. Tidak ada yang bisa dilewati atau disingkat."</p>
+
+          <h3>Hari-Hari Menjelang Galungan</h3>
+          <p>Sugihan Jawa, enam hari sebelum Galungan, adalah hari pembersihan areal puri secara fisik dan spiritual. Seluruh bangunan dibersihkan, kolam-kolam dibersihkan, dan setiap sudut disucikan dengan tirta (air suci). Keesokan harinya, Sugihan Bali, adalah waktu untuk membersihkan diri sendiri — mandi, berpakaian putih-putih, dan bermeditasi.</p>
+
+          <p>Penampahan Galungan, sehari sebelum hari raya, adalah hari yang paling sibuk. Di halaman belakang puri, babi disembelih untuk bahan bebek betutu dan lawar merah — hidangan sakral yang hanya dibuat pada hari raya besar. Proses memasak ini sendiri adalah ritual, dilakukan dengan doa dan kehadiran penuh.</p>
+
+          <h3>Pagi Galungan</h3>
+          <p>Ketika fajar menyingsing di hari Galungan, seluruh keluarga besar puri — yang bisa berjumlah hingga 200 orang dari berbagai penjuru Bali — berkumpul di pelinggih (pura keluarga dalam kompleks puri) untuk sembahyang bersama. Gamelan dimainkan, kidung (nyanyian suci) dilantunkan, dan asap dupa membubung memenuhi langit pagi yang masih temaram.</p>
+
+          <p>Bagi yang beruntung bisa hadir dan menyaksikan momen ini — betapapun sederhananya dari luar — ada keheningan yang menembus jauh ke dalam dada. Sebuah perasaan bahwa waktu, sejenak saja, telah berhenti berputar.</p>
+        `
+      }
+    };
+
+    /* ── Section navigation ── */
+    const sections   = document.querySelectorAll('.page-section');
+    const navLinks   = document.querySelectorAll('.nav-link');
+    const validHashes = ['beranda', 'sejarah', 'galeri', 'warisan', 'blog'];
+
+    function getHash() {
+      const h = window.location.hash.replace('#', '');
+      return validHashes.includes(h) ? h : 'beranda';
+    }
+
+    function showSection(hash) {
+      sections.forEach(sec => sec.classList.remove('active'));
+      navLinks.forEach(link => link.classList.remove('active-link'));
+
+      const target = document.getElementById(hash);
+      if (target) target.classList.add('active');
+
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === '#' + hash) {
+          link.classList.add('active-link');
+        }
+      });
+
+      // Reset blog detail if navigating away from blog
+      if (hash !== 'blog') resetBlog();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('hashchange', () => showSection(getHash()));
+    window.addEventListener('load', () => showSection(getHash()));
+
+    /* ── Nav anchor clicks ── */
+    document.querySelectorAll('.nav-anchor').forEach(anchor => {
+      anchor.addEventListener('click', function () {
+        closeMobileMenu();
+      });
+    });
+
+    /* ── Hamburger ── */
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let menuOpen     = false;
+
+    function closeMobileMenu() {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('is-active');
+    }
+
+    hamburger.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('open', menuOpen);
+    });
+
+    /* ── Blog logic ── */
+    const blogList        = document.getElementById('blog-list');
+    const blogDetail      = document.getElementById('blog-detail');
+    const blogDetailContent = document.getElementById('blog-detail-content');
+    const blogBackBtn     = document.getElementById('blog-back-btn');
+
+    function resetBlog() {
+      blogList.classList.remove('hidden');
+      blogDetail.classList.remove('active');
+      blogDetailContent.innerHTML = '';
+    }
+
+    document.querySelectorAll('.blog-read-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const id  = this.dataset.article;
+        const art = articles[id];
+        if (!art) return;
+
+        blogDetailContent.innerHTML = `
+          <div class="mb-8 overflow-hidden rounded-sm h-64 md:h-80">
+            <img src="${art.image}" alt="${art.title}"
+                 class="w-full h-full object-cover" loading="lazy"/>
+          </div>
+          <time class="text-xs tracking-widest uppercase text-puri-sand mb-3 block">${art.date}</time>
+          <h2 class="font-display text-3xl md:text-4xl font-semibold text-puri-coal mb-8 leading-tight">${art.title}</h2>
+          <div class="prose-puri">${art.body}</div>
+        `;
+
+        blogList.classList.add('hidden');
+        blogDetail.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    blogBackBtn.addEventListener('click', resetBlog);
+
+  })();
+  </script>
+
+</body>
+</html>
